@@ -18,7 +18,7 @@ pipeline {
         stage('Check PEP8 Violations') {
             steps {
                 echo "Running pylint to check for code style violations"
-                sh 'pylint netman_netconf_obj2.py --fail-under=5'
+                sh 'pylint netman_netconf_obj2.py --fail-under=7'
             }
         }
 
