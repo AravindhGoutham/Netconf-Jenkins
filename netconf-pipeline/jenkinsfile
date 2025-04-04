@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    triggers {
+        githubPush()  // Automatically triggers build on git push (requires webhook setup)
+    }
+
+    stages {
+        stage('Install Required Packages') {
+            steps {
+                echo "Installing required Python packages"
+                sh '''
+                pip install ncclient pandas ipaddress netaddr prettytable pylint
+                '''
+            }
+        }
+
+        stage('Check PEP8 Violations') {
+            steps {
+                echo "Running pylint to check for code style violations"
+                sh 'pylint netman_netconf_obj2.py --fail-under=5'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                echo "Running the main NETCONF script"
+                sh 'python3 netman_netconf_obj2.py'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                echo "Running unit tests to validate NETCONF logic"
+                sh 'python3 -m unittest test_netconf.py'
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: 'aravindh.goutham.mahe@gmail.com',
+                 subject: "Jenkins Job Successful",
+                 body: "The Jenkins pipeline has completed successfully."
+        }
+        failure {
+            mail to: 'aravindh.goutham.mahe@gmail.com',
+                 subject: "Jenkins Job Failed",
+                 body: "The Jenkins pipeline failed.Please check the logs."
+        }
+    }
+}
