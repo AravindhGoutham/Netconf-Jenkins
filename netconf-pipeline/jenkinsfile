@@ -14,17 +14,15 @@ pipeline {
                 '''
             }
         }
-
+        
         stage('Check PEP8 Violations') {
             steps {
-                echo " Running pylint to check for code style violations"
-                // This will fail the build only if score < 5
-                sh '''
-                pip install pylint
-                echo ">>> Running pylint with --fail-under=5"
-                pylint netman_netconf_obj2.py --fail-under=5
-                '''
-            }
+                   echo "Installing pylint and checking code style"
+                   sh '''
+                   pip install pylint
+                   pylint netman_netconf_obj2.py --fail-under=5
+                   '''
+                  }
         }
 
         stage('Run Application') {
