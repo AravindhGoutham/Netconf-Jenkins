@@ -50,3 +50,9 @@ pipeline {
         }
     }
 }
+
+✔️ GitHub hook trigger for GITScm polling
+Definition: Pipeline script from SCM
+SCM: Git
+Repo URL: https://github.com/AravindhGoutham/netconf-pipeline.git
+Credentials: GitHub WebHook
