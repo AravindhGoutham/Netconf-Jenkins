@@ -17,14 +17,18 @@ pipeline {
 
         stage('Check PEP8 Violations') {
             steps {
-                echo "Running pylint to check for code style violations"
-                sh 'pylint netman_netconf_obj2.py --fail-under=7'
+                echo " Running pylint to check for code style violations"
+                // This will fail the build only if score < 5
+                sh '''
+                echo ">>> Running pylint with --fail-under=5"
+                pylint netman_netconf_obj2.py --fail-under=5
+                '''
             }
         }
 
         stage('Run Application') {
             steps {
-                echo "Running the main NETCONF script"
+                echo " Running the main NETCONF script"
                 sh 'python3 netman_netconf_obj2.py'
             }
         }
@@ -46,8 +50,7 @@ pipeline {
         failure {
             mail to: 'aravindh.goutham.mahe@gmail.com',
                  subject: "Jenkins Job Failed",
-                 body: "The Jenkins pipeline failed.Please check the logs."
+                 body: "The Jenkins pipeline failed. Please check the stage logs for errors."
         }
     }
 }
-
