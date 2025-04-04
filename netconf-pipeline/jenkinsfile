@@ -20,6 +20,7 @@ pipeline {
                 echo " Running pylint to check for code style violations"
                 // This will fail the build only if score < 5
                 sh '''
+                pip install pylint
                 echo ">>> Running pylint with --fail-under=5"
                 pylint netman_netconf_obj2.py --fail-under=5
                 '''
