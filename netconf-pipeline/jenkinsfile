@@ -26,6 +26,17 @@ pipeline {
             }
         }
 
+         stage('Run Application') {
+            steps {
+                echo "Running the main NETCONF script"
+                sh '''
+                export PATH=$PATH:$HOME/.local/bin
+                python3 netman_netconf_obj2.py
+                '''
+            }
+        }
+
+ 
         stage('Unit Tests') {
             steps {
                 echo "Running unit tests to validate NETCONF logic"
